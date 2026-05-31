@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تمريضك - الرعاية الصحية المنزلية</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Tajawal -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <script>
@@ -17,15 +14,16 @@
                 extend: {
                     fontFamily: { 'tajawal': ['Tajawal', 'sans-serif'] },
                     colors: {
-                        'brand-teal': '#2b8a8e', /* لون اللوجو الأساسي */
-                        'brand-gold': '#bfa054', /* لون اللوجو الدهبي */
+                        'brand-teal': '#2b8a8e',
+                        'brand-gold': '#bfa054',
+                        'brand-light': '#f4fbfb'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; }
+        body { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; }
         .fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
             opacity: 0;
@@ -35,66 +33,176 @@
             to { opacity: 1; transform: translateY(0); }
         }
         .hero-bg {
-            background-image: linear-gradient(rgba(43, 138, 142, 0.85), rgba(0, 0, 0, 0.7)), url('hero-image.jpg');
+            background-image: linear-gradient(rgba(43, 138, 142, 0.9), rgba(15, 48, 49, 0.8)), url('https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');
             background-size: cover;
             background-position: center;
         }
+        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(43, 138, 142, 0.1); }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    <!-- Header / Navbar -->
     <nav class="bg-white shadow-md fixed w-full z-50 top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-24 items-center">
+            <div class="flex justify-between h-20 items-center">
                 <div class="flex items-center">
-                    <!-- اللوجو بتاعك هينزل هنا -->
-                    <img src="logo.png" alt="لوجو تمريضك" class="h-20 w-auto object-contain">
+                    <img src="logo.png" alt="لوجو تمريضك" class="h-16 w-auto object-contain fallback-text font-bold text-brand-teal text-2xl">
                 </div>
                 <div class="hidden md:flex space-x-8 space-x-reverse">
-                    <a href="#about" class="text-gray-600 hover:text-brand-teal font-bold transition">عن الشركة</a>
+                    <a href="#features" class="text-gray-600 hover:text-brand-teal font-bold transition">مميزاتنا</a>
                     <a href="#services" class="text-gray-600 hover:text-brand-teal font-bold transition">خدماتنا</a>
+                    <a href="#download" class="text-gray-600 hover:text-brand-teal font-bold transition">حمل التطبيق</a>
                     <a href="#contact" class="text-gray-600 hover:text-brand-teal font-bold transition">تواصل معنا</a>
+                </div>
+                <div class="md:hidden">
+                     <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-brand-teal text-white px-4 py-2 rounded-full text-sm font-bold">التطبيق</a>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-bg h-screen flex items-center mt-12">
+    <section class="hero-bg min-h-screen flex items-center pt-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center fade-in-up">
-            <h1 class="text-5xl md:text-6xl font-black text-white mb-6 leading-tight">
-                رعاية طبية متكاملة <br> <span class="text-brand-gold">في راحة منزلك</span>
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-gold bg-opacity-20 text-brand-gold font-bold mb-4 border border-brand-gold">أهلاً بك في عائلة تمريضك</span>
+            <h1 class="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+                الرعاية الطبية الموثوقة.. <br> <span class="text-brand-gold">من البيت وإلى البيت</span>
             </h1>
-            <p class="text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
-                نقدم خدمات التمريض المنزلي بأعلى معايير الجودة الطبية، لأن صحتك وراحة بالك هما أولويتنا.
+            <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+                نقدم لك ولأحبائك خدمات التمريض المنزلي، التحاليل، والأشعة بأعلى معايير الجودة، مع نخبة من التمريض المرخص من وزارة الصحة. صحتك وراحة بالك هما أولويتنا.
             </p>
-            <div class="flex justify-center gap-4">
-                <a href="#contact" class="bg-brand-teal text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-opacity-90 transition transform hover:-translate-y-1">
-                    اطلب الخدمة الآن
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-brand-teal text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-opacity-90 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-google-play text-xl"></i> حمل التطبيق الآن
                 </a>
-                <a href="#" class="bg-transparent border-2 border-brand-gold text-brand-gold font-bold py-3 px-8 rounded-full hover:bg-brand-gold hover:text-white transition">
-                    <i class="fa-brands fa-apple mr-2"></i> قريباً على App Store
+                <a href="https://wa.me/201214058019" target="_blank" class="bg-green-500 text-white font-bold py-4 px-8 rounded-full shadow-lg hover:bg-green-600 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i> تواصل مع الدعم الفني
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Contact & Footer Section -->
-    <section id="contact" class="bg-gray-900 text-white py-16">
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">ليه تختار <span class="text-brand-teal">تطبيق تمريضك؟</span></h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">صممنا التطبيق عشان يضمن لك أعلى درجات الأمان، الشفافية، والراحة ليك ولأسرتك.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">تمريض مرخص وموثوق</h3>
+                    <p class="text-gray-600 leading-relaxed">كل التمريض مرخص من وزارة الصحة ونقابة التمريض. يمكنك مراجعة الملف الشخصي والتقييمات قبل الموافقة.</p>
+                </div>
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">تفاوض مباشر على السعر</h3>
+                    <p class="text-gray-600 leading-relaxed">نظام تفاوض مرن يسمح لك بالاتفاق المباشر مع التمريض على السعر المناسب بدون أي وسطاء.</p>
+                </div>
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-location-crosshairs"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">تتبع حي ومشاركة الموقع</h3>
+                    <p class="text-gray-600 leading-relaxed">خدمة تتبع مسار الممرض أو العينة، مع إمكانية مشاركة الموقع المباشر لحين الوصول لباب البيت.</p>
+                </div>
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-mobile-screen-button"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">تسجيل سهل وآمن</h3>
+                    <p class="text-gray-600 leading-relaxed">دخول سريع برقم الهاتف مع تأكيد عبر رسالة OTP على الواتساب لضمان الخصوصية والسرعة.</p>
+                </div>
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-qrcode"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">حفظ الحقوق بأكواد الأمان</h3>
+                    <p class="text-gray-600 leading-relaxed">كود خاص ببدء وإنهاء كل خدمة لضمان حقوق العميل والتمريض، مع نظام تقييم متبادل بعد كل زيارة.</p>
+                </div>
+                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                    <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-gift"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">نظام مكافآت للمستخدمين</h3>
+                    <p class="text-gray-600 leading-relaxed">احصل على خصومات على فاتورتك عند دعوة أصدقائك أو معارفك لاستخدام تطبيق تمريضك.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">خدمات <span class="text-brand-gold">متكاملة</span> تحت سقف واحد</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">فريقنا متواجد 24 ساعة لتقديم كافة الرعاية الطبية التي تحتاجها.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                    <i class="fa-solid fa-user-nurse text-3xl text-brand-teal mt-1"></i>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-1">التمريض المنزلي والمساعدين</h4>
+                        <p class="text-gray-600">كافة الخدمات التمريضية العامة والمتخصصة على مدار 24 ساعة، بالإضافة لتوفير جليس لكبار السن.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                    <i class="fa-solid fa-flask-vial text-3xl text-brand-teal mt-1"></i>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-1">تحاليل منزلية بمعامل معتمدة</h4>
+                        <p class="text-gray-600">سحب العينات من المنزل بالتعاقد مع أكبر المعامل، مع تتبع مسار العينة واستلام النتيجة عبر التطبيق أو الواتساب.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                    <i class="fa-solid fa-x-ray text-3xl text-brand-teal mt-1"></i>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-1">الأشعة والإيكو المنزلي</h4>
+                        <p class="text-gray-600">خدمات الأشعة المتنقلة والإيكو القلبي في المنزل بواسطة فنيين أشعة متخصصين بأحدث الأجهزة.</p>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                    <i class="fa-solid fa-kit-medical text-3xl text-brand-teal mt-1"></i>
+                    <div>
+                        <h4 class="text-xl font-bold text-gray-800 mb-1">أجهزة قياس السكر والمعدات</h4>
+                        <p class="text-gray-600">توفير وتركيب أجهزة قياس السكر تحت الجلد بواسطة أمهر الممرضين المدربين، وتحديث مستمر ببروتوكولات الرعاية.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="download" class="py-16 bg-brand-teal text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 class="text-3xl font-black mb-8 text-brand-gold">بيانات التواصل الرسمية</h2>
-            <div class="flex flex-col md:flex-row justify-center gap-8 mb-8">
+            <h2 class="text-3xl font-black mb-6">جاهزين نبدأ شغل سوا!</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto text-brand-light">سواء كنت عميل تبحث عن رعاية، أو ممارس طبي (تمريض، فني أشعة، صاحب معمل) انضم لمنصتنا الآن.</p>
+            
+            <div class="flex justify-center mb-12">
+                <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-white text-brand-teal font-bold py-3 px-8 rounded-full shadow-lg hover:bg-gray-100 transition text-lg flex items-center gap-2">
+                    <i class="fa-brands fa-google-play"></i> حمل تطبيق تمريضك لإدارة الطلبات
+                </a>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-8 mt-8">
+                <h3 class="text-xl font-bold mb-6 text-brand-gold">تابعنا وكن جزءاً من عائلتنا على السوشيال ميديا</h3>
+                <div class="flex justify-center gap-6 text-3xl">
+                    <a href="https://www.facebook.com/share/1E5M1Y1EAu/" target="_blank" class="hover:text-brand-gold transition transform hover:scale-110"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="https://www.instagram.com/tamreedk" target="_blank" class="hover:text-brand-gold transition transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@tamreedk" target="_blank" class="hover:text-brand-gold transition transform hover:scale-110"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://youtu.be/5EdfyXuLdCU" target="_blank" class="hover:text-brand-gold transition transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="bg-gray-900 text-white py-12 border-b-8 border-brand-teal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex flex-col md:flex-row justify-center gap-8 mb-10">
                 <div class="flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-envelope text-2xl text-brand-teal"></i>
+                    <i class="fa-brands fa-whatsapp text-2xl text-brand-gold"></i>
+                    <a href="https://wa.me/201214058019" dir="ltr" class="text-lg hover:text-brand-teal transition">+20 121 405 8019</a>
+                </div>
+                <div class="flex items-center justify-center gap-3">
+                    <i class="fa-solid fa-envelope text-2xl text-brand-gold"></i>
                     <span class="text-lg">admin@tamreedk.com</span>
                 </div>
                 <div class="flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-location-dot text-2xl text-brand-teal"></i>
+                    <i class="fa-solid fa-location-dot text-2xl text-brand-gold"></i>
                     <span class="text-lg">١٥ شارع غرناطة روكسي - القاهرة</span>
                 </div>
             </div>
-            <p class="text-gray-400">© 2026 جميع الحقوق محفوظة لشركة تمريضك هوم كير.</p>
+            <p class="text-gray-400 text-sm">© 2026 جميع الحقوق محفوظة لشركة تمريضك هوم كير.</p>
         </div>
     </section>
 
