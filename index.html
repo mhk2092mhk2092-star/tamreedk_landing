@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
     <script>
         tailwind.config = {
             theme: {
@@ -23,7 +26,7 @@
         }
     </script>
     <style>
-        body { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; }
+        body { font-family: 'Tajawal', sans-serif; scroll-behavior: smooth; overflow-x: hidden; }
         .fade-in-up {
             animation: fadeInUp 1s ease-out forwards;
             opacity: 0;
@@ -37,10 +40,47 @@
             background-size: cover;
             background-position: center;
         }
-        .feature-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(43, 138, 142, 0.1); }
+        .feature-card { transition: all 0.3s ease; }
+        .feature-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: 0 15px 30px rgba(43, 138, 142, 0.15); 
+            border-color: #2b8a8e;
+        }
+        .icon-bounce:hover i { animation: bounce 1s infinite; }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        /* تصميم زر الواتساب العائم */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 35px;
+            box-shadow: 2px 2px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 65px;
+            height: 65px;
+        }
+        .whatsapp-float:hover {
+            transform: scale(1.1);
+            background-color: #1ebe57;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
+    <a href="https://wa.me/201214058019?text=أهلاً،%20أحتاج%20إلى%20مساعدة%20بخصوص%20خدمات%20تطبيق%20تمريضك" target="_blank" class="whatsapp-float">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <nav class="bg-white shadow-md fixed w-full z-50 top-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -51,8 +91,8 @@
                 <div class="hidden md:flex space-x-8 space-x-reverse">
                     <a href="#features" class="text-gray-600 hover:text-brand-teal font-bold transition">مميزاتنا</a>
                     <a href="#services" class="text-gray-600 hover:text-brand-teal font-bold transition">خدماتنا</a>
+                    <a href="#estimator" class="text-gray-600 hover:text-brand-teal font-bold transition">حاسبة التكلفة</a>
                     <a href="#download" class="text-gray-600 hover:text-brand-teal font-bold transition">حمل التطبيق</a>
-                    <a href="#contact" class="text-gray-600 hover:text-brand-teal font-bold transition">تواصل معنا</a>
                 </div>
                 <div class="md:hidden flex gap-2">
                      <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-brand-teal text-white px-3 py-2 rounded-full text-xs font-bold"><i class="fa-brands fa-google-play"></i></a>
@@ -69,7 +109,8 @@
                 الرعاية الطبية الموثوقة.. <br> <span class="text-brand-gold">من البيت وإلى البيت</span>
             </h1>
             <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
-                نقدم لك ولأحبائك خدمات التمريض المنزلي، التحاليل، والأشعة بأعلى معايير الجودة، مع نخبة من التمريض المرخص من وزارة الصحة. صحتك وراحة بالك هما أولويتنا.
+                نقدم لك ولأحبائك خدمات التمريض المنزلي، التحاليل، والأشعة بأعلى معايير الجودة، مع نخبة من التمريض المرخص من وزارة الصحة 
+                <span id="nurses-count-badge" class="font-bold text-brand-gold hidden"> (أكثر من <span id="nurses-dynamic-number">...</span> مقدم خدمة)</span>. صحتك وراحة بالك هما أولويتنا.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-brand-teal text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-opacity-90 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
@@ -77,9 +118,6 @@
                 </a>
                 <a href="https://apps.apple.com/us/app/%D8%AA%D9%85%D8%B1%D9%8A%D8%B6%D9%83/id6781697620" target="_blank" class="bg-gray-900 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-gray-800 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
                     <i class="fa-brands fa-apple text-xl"></i> آب ستور
-                </a>
-                <a href="https://wa.me/201214058019" target="_blank" class="bg-green-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-green-600 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-whatsapp text-xl"></i> الدعم الفني
                 </a>
             </div>
         </div>
@@ -93,32 +131,32 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-shield-halved"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">تمريض مرخص وموثوق</h3>
                     <p class="text-gray-600 leading-relaxed">كل التمريض مرخص من وزارة الصحة ونقابة التمريض. يمكنك مراجعة الملف الشخصي والتقييمات قبل الموافقة.</p>
                 </div>
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-handshake-angle"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">تفاوض مباشر على السعر</h3>
                     <p class="text-gray-600 leading-relaxed">نظام تفاوض مرن يسمح لك بالاتفاق المباشر مع التمريض على السعر المناسب بدون أي وسطاء.</p>
                 </div>
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-location-crosshairs"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">تتبع حي ومشاركة الموقع</h3>
                     <p class="text-gray-600 leading-relaxed">خدمة تتبع مسار الممرض أو العينة، مع إمكانية مشاركة الموقع المباشر لحين الوصول لباب البيت.</p>
                 </div>
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-mobile-screen-button"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">تسجيل سهل وآمن</h3>
                     <p class="text-gray-600 leading-relaxed">دخول سريع برقم الهاتف مع تأكيد عبر رسالة OTP على الواتساب لضمان الخصوصية والسرعة.</p>
                 </div>
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-qrcode"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">حفظ الحقوق بأكواد الأمان</h3>
                     <p class="text-gray-600 leading-relaxed">كود خاص ببدء وإنهاء كل خدمة لضمان حقوق العميل والتمريض، مع نظام تقييم متبادل بعد كل زيارة.</p>
                 </div>
-                <div class="feature-card bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
+                <div class="feature-card icon-bounce bg-brand-light p-6 rounded-2xl border border-gray-100 transition duration-300">
                     <div class="w-14 h-14 bg-brand-teal text-white rounded-xl flex items-center justify-center text-2xl mb-4 shadow-md"><i class="fa-solid fa-gift"></i></div>
                     <h3 class="text-xl font-bold text-gray-800 mb-2">نظام مكافآت للمستخدمين</h3>
                     <p class="text-gray-600 leading-relaxed">احصل على خصومات على فاتورتك عند دعوة أصدقائك أو معارفك لاستخدام تطبيق تمريضك.</p>
@@ -127,7 +165,34 @@
         </div>
     </section>
 
-    <section id="services" class="py-20 bg-gray-50 border-t border-gray-200">
+    <section id="estimator" class="py-20 bg-gray-50 border-t border-gray-200">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-white p-8 rounded-2xl shadow-xl border-t-4 border-brand-gold text-center">
+                <h2 class="text-3xl font-black text-gray-800 mb-2">احسب تكلفة الخدمة مبدئياً</h2>
+                <p class="text-gray-500 mb-8">اختر الخدمة التي تحتاجها لتعرف متوسط التكلفة التقديرية (الأسعار قابلة للتفاوض داخل التطبيق)</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-right">
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">نوع الخدمة:</label>
+                        <select id="service-select" class="w-full border-gray-300 rounded-lg p-3 bg-gray-50 border focus:border-brand-teal focus:ring-0">
+                            <option value="">جاري تحميل الخدمات والأسعار...</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-gray-700 mb-2">عدد الزيارات / الأيام:</label>
+                        <input type="number" id="service-duration" min="1" value="1" class="w-full border-gray-300 rounded-lg p-3 bg-gray-50 border focus:border-brand-teal focus:ring-0">
+                    </div>
+                </div>
+                <button onclick="calculateEstimate()" class="mt-8 bg-brand-teal text-white font-bold py-3 px-10 rounded-full hover:bg-opacity-90 transition shadow-md w-full md:w-auto">احسب التكلفة</button>
+                
+                <div id="estimate-result" class="mt-6 text-2xl font-black text-brand-teal hidden">
+                    التكلفة التقديرية: <span id="total-price" class="text-brand-gold">0</span> ج.م
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-20 bg-white border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
                 <h2 class="text-3xl md:text-4xl font-black text-gray-800 mb-4">خدمات <span class="text-brand-gold">متكاملة</span> تحت سقف واحد</h2>
@@ -135,28 +200,28 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4 hover:shadow-md transition">
                     <i class="fa-solid fa-user-nurse text-3xl text-brand-teal mt-1"></i>
                     <div>
                         <h4 class="text-xl font-bold text-gray-800 mb-1">التمريض المنزلي والمساعدين</h4>
                         <p class="text-gray-600">كافة الخدمات التمريضية العامة والمتخصصة على مدار 24 ساعة، بالإضافة لتوفير جليس لكبار السن.</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4 hover:shadow-md transition">
                     <i class="fa-solid fa-flask-vial text-3xl text-brand-teal mt-1"></i>
                     <div>
                         <h4 class="text-xl font-bold text-gray-800 mb-1">تحاليل منزلية بمعامل معتمدة</h4>
                         <p class="text-gray-600">سحب العينات من المنزل بالتعاقد مع أكبر المعامل، مع تتبع مسار العينة واستلام النتيجة عبر التطبيق أو الواتساب.</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4 hover:shadow-md transition">
                     <i class="fa-solid fa-x-ray text-3xl text-brand-teal mt-1"></i>
                     <div>
                         <h4 class="text-xl font-bold text-gray-800 mb-1">الأشعة والإيكو المنزلي</h4>
                         <p class="text-gray-600">خدمات الأشعة المتنقلة والإيكو القلبي في المنزل بواسطة فنيين أشعة متخصصين بأحدث الأجهزة.</p>
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4">
+                <div class="bg-gray-50 p-6 rounded-xl shadow-sm border-r-4 border-brand-teal flex items-start gap-4 hover:shadow-md transition">
                     <i class="fa-solid fa-kit-medical text-3xl text-brand-teal mt-1"></i>
                     <div>
                         <h4 class="text-xl font-bold text-gray-800 mb-1">أجهزة قياس السكر والمعدات</h4>
@@ -193,25 +258,133 @@
         </div>
     </section>
 
-    <section id="contact" class="bg-gray-900 text-white py-12 border-b-8 border-brand-teal">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="flex flex-col md:flex-row justify-center gap-8 mb-10">
-                <div class="flex items-center justify-center gap-3">
-                    <i class="fa-brands fa-whatsapp text-2xl text-brand-gold"></i>
-                    <a href="https://wa.me/201214058019" dir="ltr" class="text-lg hover:text-brand-teal transition">+20 121 405 8019</a>
+    <section id="contact" class="bg-gray-900 text-white py-16 border-b-8 border-brand-teal">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-black mb-4">نحن متواجدون بالقرب منك</h2>
+                <p class="text-gray-400">تغطي خدماتنا مناطق واسعة، تواصل معنا أينما كنت.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                <div class="flex flex-col gap-6 text-right">
+                    <div class="bg-gray-800 p-6 rounded-xl flex items-center gap-4">
+                        <i class="fa-brands fa-whatsapp text-3xl text-brand-gold"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">تواصل عبر واتساب</p>
+                            <a href="https://wa.me/201214058019" dir="ltr" class="text-xl font-bold hover:text-brand-teal transition">+20 121 405 8019</a>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl flex items-center gap-4">
+                        <i class="fa-solid fa-envelope text-3xl text-brand-gold"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">البريد الإلكتروني</p>
+                            <span class="text-xl font-bold">admin@tamreedk.com</span>
+                        </div>
+                    </div>
+                    <div class="bg-gray-800 p-6 rounded-xl flex items-center gap-4">
+                        <i class="fa-solid fa-location-dot text-3xl text-brand-gold"></i>
+                        <div>
+                            <p class="text-sm text-gray-400">المقر الرئيسي</p>
+                            <span class="text-xl font-bold">١٥ شارع غرناطة روكسي - القاهرة</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-envelope text-2xl text-brand-gold"></i>
-                    <span class="text-lg">admin@tamreedk.com</span>
-                </div>
-                <div class="flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-location-dot text-2xl text-brand-gold"></i>
-                    <span class="text-lg">١٥ شارع غرناطة روكسي - القاهرة</span>
+                
+                <div class="h-80 w-full rounded-2xl overflow-hidden border-4 border-gray-800 shadow-lg z-10">
+                    <div id="osm-map" class="h-full w-full"></div>
                 </div>
             </div>
-            <p class="text-gray-400 text-sm">© 2026 جميع الحقوق محفوظة لشركة تمريضك هوم كير.</p>
+            <p class="text-center text-gray-500 text-sm mt-12">© 2026 جميع الحقوق محفوظة لشركة تمريضك هوم كير.</p>
         </div>
     </section>
 
+    <script>
+        // ----------------------------------------------------
+        // الروابط الخاصة بالـ Backend (عبر الـ IP الخاص بك)
+        // (تأكد من إضافة المنفذ port إذا كان الباك إند يعمل على منفذ محدد مثل 145.223.80.174:3000)
+        // ----------------------------------------------------
+        const API_URL_NURSES = 'http://145.223.80.174/api/public/nurses-count'; 
+        const API_URL_SERVICES = 'http://145.223.80.174/api/services'; 
+
+        // 1. جلب عدد الممرضين من الباك إند
+        async function fetchNursesCount() {
+            try {
+                const response = await fetch(API_URL_NURSES);
+                if (!response.ok) throw new Error('فشل الاتصال بالخادم');
+                
+                const data = await response.json(); 
+                
+                if (data.count && data.count > 0) {
+                    document.getElementById('nurses-dynamic-number').innerText = data.count;
+                    document.getElementById('nurses-count-badge').classList.remove('hidden');
+                }
+            } catch (error) {
+                console.error('خطأ في جلب عدد التمريض:', error);
+            }
+        }
+
+        // 2. جلب قائمة الخدمات والأسعار لحاسبة التكلفة
+        async function fetchServicesList() {
+            const selectElement = document.getElementById('service-select');
+            
+            try {
+                const response = await fetch(API_URL_SERVICES);
+                if (!response.ok) throw new Error('فشل الاتصال بالخادم');
+                
+                const data = await response.json();
+                
+                selectElement.innerHTML = ''; // تفريغ القائمة
+                
+                // إضافة الخدمات
+                data.forEach(service => {
+                    const option = document.createElement('option');
+                    option.value = service.price; // تأكد أن المفتاح هو price أو حسب المسمى في الداتا بيز
+                    option.innerText = `${service.name || service.title} (${service.price} ج.م)`; // تأكد من مفتاح الاسم (name أو title)
+                    selectElement.appendChild(option);
+                });
+
+            } catch (error) {
+                console.error('خطأ في جلب قائمة الخدمات:', error);
+                // خطة بديلة (Fallback) تحمي الموقع لو السيرفر واقع
+                selectElement.innerHTML = `
+                    <option value="150">سحب عينة تحليل (150 ج.م)</option>
+                    <option value="100">تركيب كانيولا / إبرة (100 ج.م)</option>
+                    <option value="400">رعاية تمريضية - شيفت 12 ساعة (400 ج.م)</option>
+                    <option value="700">رعاية تمريضية - شيفت 24 ساعة (700 ج.م)</option>
+                `;
+            }
+        }
+
+        // 3. دالة حساب التكلفة
+        function calculateEstimate() {
+            let pricePerUnit = document.getElementById('service-select').value;
+            let duration = document.getElementById('service-duration').value;
+            
+            if(!pricePerUnit) return; 
+
+            let total = parseInt(pricePerUnit) * parseInt(duration);
+            
+            let resultDiv = document.getElementById('estimate-result');
+            let priceSpan = document.getElementById('total-price');
+            
+            priceSpan.innerText = total;
+            resultDiv.classList.remove('hidden');
+            resultDiv.classList.add('fade-in-up');
+        }
+
+        // 4. خريطة OpenStreetMap التفاعلية
+        document.addEventListener('DOMContentLoaded', function() {
+            fetchNursesCount();
+            fetchServicesList();
+
+            var map = L.map('osm-map').setView([30.0920, 31.3175], 14);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            }).addTo(map);
+            L.marker([30.0920, 31.3175]).addTo(map)
+                .bindPopup('<b style="color:#2b8a8e;">مقر تمريضك</b><br>١٥ شارع غرناطة، روكسي')
+                .openPopup();
+        });
+    </script>
 </body>
 </html>
