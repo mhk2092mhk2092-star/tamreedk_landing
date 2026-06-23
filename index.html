@@ -51,7 +51,6 @@
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-5px); }
         }
-        /* تصميم زر الواتساب العائم */
         .whatsapp-float {
             position: fixed;
             bottom: 30px;
@@ -110,7 +109,7 @@
             </h1>
             <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
                 نقدم لك ولأحبائك خدمات التمريض المنزلي، التحاليل، والأشعة بأعلى معايير الجودة، مع نخبة من التمريض المرخص من وزارة الصحة 
-                <span class="font-bold text-brand-gold"> (أكثر من 150 مقدم خدمة معتمد)</span>. صحتك وراحة بالك هما أولويتنا.
+                <span class="font-bold text-brand-gold"> (أكثر من <span id="nurses-dynamic-number">2139</span> مقدم خدمة معتمد)</span>. صحتك وراحة بالك هما أولويتنا.
             </p>
             <div class="flex flex-col sm:flex-row justify-center gap-4">
                 <a href="https://play.google.com/store/apps/details?id=com.tamreedak.app" target="_blank" class="bg-brand-teal text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-opacity-90 transition transform hover:-translate-y-1 flex items-center justify-center gap-2">
@@ -175,12 +174,6 @@
                     <div>
                         <label class="block font-bold text-gray-700 mb-2">نوع الخدمة:</label>
                         <select id="service-select" class="w-full border-gray-300 rounded-lg p-3 bg-gray-50 border focus:border-brand-teal focus:ring-0">
-                            <option value="150">سحب عينة تحليل (150 ج.م)</option>
-                            <option value="100">تركيب كانيولا / إبرة (100 ج.م)</option>
-                            <option value="400">رعاية تمريضية - شيفت 12 ساعة (400 ج.م)</option>
-                            <option value="700">رعاية تمريضية - شيفت 24 ساعة (700 ج.م)</option>
-                            <option value="250">غيار على جرح بسيط (250 ج.م)</option>
-                            <option value="300">أشعة منزلية - إيكو (بداية من 300 ج.م)</option>
                         </select>
                     </div>
                     <div>
@@ -304,7 +297,60 @@
     </section>
 
     <script>
+        // =========================================================
+        // الداتا الفعلية للخدمات (زي ما جات من السيرفر بالظبط)
+        // =========================================================
+        const initialServicesData = [{"id":4,"name":"حقن وريد (IV)","price":200},{"id":5,"name":"حقن تحت الجلد (أنسولين/كلكسان)","price":120},{"id":6,"name":"تركيب كانيولا","price":300},{"id":7,"name":"تعليق محاليل (شامل الملاحظة)","price":350},{"id":8,"name":"غيار على جرح بسيط / عملية نظيفة","price":125},{"id":9,"name":"غيار على جرح ملوث / عميق","price":350},{"id":10,"name":"غيار قرح فراش (درجة أولى/ثانية)","price":200},{"id":11,"name":"غيار قرح فراش (درجة ثالثة/رابعة)","price":300},{"id":12,"name":"غيار قدم سكري","price":400},{"id":13,"name":"فك غرز جراحية / دبابيس","price":125},{"id":14,"name":"تركيب قسطرة بولية (نساء/رجال)","price":350},{"id":15,"name":"غسيل مثانة","price":200},{"id":16,"name":"تركيب أنبوب تغذية  (رايل - Ryle)","price":350},{"id":17,"name":"إعطاء حقنة شرجية","price":300},{"id":18,"name":"قياس ضغط + سكر + نبض + حرارة","price":100},{"id":19,"name":"جلسة نيبولايزر (بخار تنفس)","price":100},{"id":21,"name":"سحب عينات دم للتحاليل","price":150},{"id":23,"name":"حمام مريض كامل (في السرير)","price":350},{"id":25,"name":"شيفت تمريض 6 ساعات (نهاري)","price":550},{"id":26,"name":"شيفت تمريض 8 ساعات","price":700},{"id":28,"name":"شيفت تمريض 24 ساعة ( مريض طريح الفراش بشكل كامل )","price":1500},{"id":34,"name":"تركيب او تنظيف قسطرة بولية","price":300},{"id":38,"name":"حقنة مضاد حيوي + اختبار حساسية","price":100},{"id":39,"name":"تركيب محلول حديد بالوريد","price":350},{"id":44,"name":"علاج حروق","price":300},{"id":45,"name":"تغيير طبي بعد عملية جراحية","price":250},{"id":46,"name":"تغيير على جروح بسيطة","price":100},{"id":47,"name":"علاج خراج (فتح وتنظيف)","price":150},{"id":48,"name":"ازالة غرز جراحية","price":100},{"id":49,"name":"تركيب كاندوم للبول","price":200},{"id":58,"name":"عناية بالأم بعد الولادة","price":350},{"id":63,"name":"جليس مسنين 12 ساعة","price":600},{"id":64,"name":"رعاية مسنين 24 ساعه جليس","price":1000},{"id":65,"name":"رعايه مريض ( حاله تحتاج الرعايه خاصه +  غير قادر ع الحركه تماما) شيفت ٢٤ ساعه","price":1400},{"id":66,"name":"إعطاء بلازما ( مع الملاحظه)","price":300},{"id":67,"name":"تركيب سينسور قياس نسبه السكر ف الجسم","price":350},{"id":68,"name":"اشعة عادية على الحوض فى المنزل","price":500},{"id":69,"name":"اشعة عادية على الركبتين فى المنزل","price":500},{"id":70,"name":"اشعة عادية اكس راى على الفقرات فى المنزل","price":500},{"id":71,"name":"اشعة عادية على مفصل الفخذ فى المنزل","price":500},{"id":72,"name":"موجات صوتية على البطن والحوض فى المنزل","price":500},{"id":73,"name":"دوبلر ودوبلكس اوردة وشرايين فى المنزل","price":500},{"id":74,"name":"ايكو على القلب","price":1000},{"id":75,"name":"رسم قلب فى المنزل","price":300},{"id":76,"name":"رسم مخ عادى ومطول فى المنزل","price":800},{"id":77,"name":"رسم عصب وعضلات فى المنزل","price":1000},{"id":78,"name":"هولتر فى المنزل","price":1000},{"id":79,"name":"سحب عينة","price":200},{"id":80,"name":"إعطاء كيس دم","price":450},{"id":81,"name":"شيفت تمريض ١٢ ساعه","price":900}];
+
+        // =========================================================
+        // وظيفة تعبئة القائمة بالخدمات
+        // =========================================================
+        function populateServices(servicesArray) {
+            const selectElement = document.getElementById('service-select');
+            selectElement.innerHTML = ''; // تنظيف القائمة أولاً
+            
+            servicesArray.forEach(service => {
+                const option = document.createElement('option');
+                option.value = service.price;
+                option.innerText = `${service.name} (${service.price} ج.م)`;
+                selectElement.appendChild(option);
+            });
+        }
+
+        // =========================================================
+        // وظيفة جلب البيانات الحية (بتستخدم البروكسي كحل مؤقت)
+        // =========================================================
+        async function fetchLiveUpdates() {
+            // محاولة جلب أرقام التمريض
+            try {
+                const nursesRes = await fetch('https://corsproxy.io/?http://145.223.80.174:3001/api/public/nurses-count');
+                if (nursesRes.ok) {
+                    const nursesData = await nursesRes.json();
+                    if (nursesData.count) {
+                        document.getElementById('nurses-dynamic-number').innerText = nursesData.count;
+                    }
+                }
+            } catch (e) {
+                console.log("لم يتم تحديث العداد لايف، جاري استخدام الرقم الثابت 2139.");
+            }
+
+            // محاولة جلب أسعار الخدمات
+            try {
+                const servicesRes = await fetch('https://corsproxy.io/?http://145.223.80.174:3001/api/services');
+                if (servicesRes.ok) {
+                    const servicesData = await servicesRes.json();
+                    if (servicesData && servicesData.length > 0) {
+                        populateServices(servicesData); // التحديث بالداتا اللايف لو موجودة
+                    }
+                }
+            } catch (e) {
+                console.log("لم يتم تحديث الخدمات لايف، جاري استخدام الـ 48 خدمة المسجلة مُسبقاً.");
+            }
+        }
+
+        // =========================================================
         // دالة حساب التكلفة
+        // =========================================================
         function calculateEstimate() {
             let pricePerUnit = document.getElementById('service-select').value;
             let duration = document.getElementById('service-duration').value;
@@ -321,8 +367,17 @@
             resultDiv.classList.add('fade-in-up');
         }
 
-        // خريطة OpenStreetMap التفاعلية
+        // =========================================================
+        // تشغيل كل حاجة لما الصفحة تفتح
+        // =========================================================
         document.addEventListener('DOMContentLoaded', function() {
+            // 1. املأ القائمة فوراً بالداتا اللي معاك عشان متأخرش العميل
+            populateServices(initialServicesData);
+            
+            // 2. جرب تكلم السيرفر في الخلفية تحدثهم
+            fetchLiveUpdates();
+
+            // 3. شغل خريطة روكسي
             var map = L.map('osm-map').setView([30.0920, 31.3175], 14);
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
